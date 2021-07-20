@@ -18,26 +18,20 @@ The example drivers should compile against latest Linus Torvalds kernel tree:
 
 To compile the drivers against a specific tree (for example Linus tree):
 ```
-$ git clone git://github.com/martinezjavier/ldd3.git
-$ git clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-$ export KERNELDIR=/path/to/linux
+$ git clone git://github.com/amygatech/ldd3.git
+$ export KERNELDIR=/usr/src/linux-headers-4.15.0-147-generic  (/path/to/linux)
 $ cd ldd3
 $ make
+* To use latest Linux kernel
+$ git clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
 ```
 
-Bugs, comments or patches: See https://github.com/martinezjavier/ldd3/issues
 
 # Latest Tested Kernel Builds
 ---------
 The kernel builds below are the versions most recently tested/supported
 
-* Ubuntu 18.04 kernel as of July 2020: 5.4.0-42-generic
-* Ubuntu 20.04 kernel as of July 2021: 5.4.0-73-generic
-* Yocto poky warrior branch kernel for qemu aarch64 builds: 5.0.19
-* Yocto poky hardknott branch kernel for qemu aarch64 builds: 5.10.46
-* Buildroot 2019.05 kernel for qemu builds: 4.9.16
-* Buildroot 2021.02 kernel for qemu builds: 5.10
-* Alpine 3.13 kernel as of May 2021: 5.10.29-lts, see [here](https://github.com/ericwq/gccIDE/wiki/ldd3-project) for detail.
+* Ubuntu 18.04 kernel 4.17
 
 
 # Eclipse Integration
