@@ -31,7 +31,7 @@ $ git clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
 ---------
 The kernel builds below are the versions most recently tested/supported
 
-* Ubuntu 18.04 kernel 4.17
+* Ubuntu 18.04 kernel 4.15
 
 
 # Eclipse Integration
