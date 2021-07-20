@@ -1,4 +1,4 @@
-ldd3: Linux Device Drivers 3 examples updated to work with recent kernels
+ldd3: Linux Device Drivers 3 examples updated to work with kernel 4.15 on ubuntu 18.04
 
 # About
 -----
