@@ -27,7 +27,8 @@ are set, the current running kernel will be built against.
 Copy **load_module.sh** and **scull.ko** files to the target machine, then run:
 
 ```bash
-./load_module.sh load|unload
+sudo ./load_module.sh load|unload
+sudo ./scull.init {start|stop|restart|force-reload}
 ```
 
 ## test the module
@@ -37,25 +38,27 @@ Write anything by any Linux tool you favoured to any device file named as
 like:
 
 ```
-[ 3850.344538] scull: scull_open() is invoked
-[ 3850.344541] scull: scull_trim() is invoked
-[ 3850.344552] scull: scull_write() is invoked
-[ 3850.344556] scull: WR pos = 12, block = 0, offset = 0, write 12 bytes
-[ 3850.344559] scull: scull_release() is invoked
+[33649.196446]  ----Enter scull_init_module()-----
+[33649.198203] scull_p_init() is invoked
+[33649.198225] scull_p_setup_cdev() is invoked
+[33649.198264] scull_p_setup_cdev() is invoked
+[33649.198299] scull_p_setup_cdev() is invoked
+[33649.198330] scull_p_setup_cdev() is invoked
+[33649.199346] scullsingle registered at 1fe00008
+[33649.199383] sculluid registered at 1fe00009
+[33649.199409] scullwuid registered at 1fe0000a
+[33649.199434] scullpriv registered at 1fe0000b
+
+.. clean up
+[33653.670436]  ----Enter scull_cleanup_module()-----
+[33653.672190] scull_p_cleanup() is invoked
+
 ```
 
 Next, read the device file which you've writen to before, if success, contents
-previously wrote into are extacted. `dmesg | tail -10` will look like:
+previously wrote into are extacted. `dmesg | tail -10 ` to see debug message
+or just run `tail -f /var/log/kern.log`
 
-```
-[ 4000.317270] scull: scull_open() is invoked
-[ 4000.317279] scull: scull_read() is invoked
-[ 4000.317286] scull: RD pos = 12, block = 0, offset = 0, read 12 bytes
-[ 4000.317622] scull: scull_read() is invoked
-[ 4000.317624] scull: RD pos = 12, block = 0, offset = 12, read 65536 bytes
-[ 4000.317634] scull: scull_release() is invoked
-```
 
----
 
 ### ¶ The end
