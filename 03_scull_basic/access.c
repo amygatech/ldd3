@@ -56,6 +56,7 @@ static atomic_t scull_s_available = ATOMIC_INIT(1);
 static int scull_s_open(struct inode *inode, struct file *filp)
 {
 	struct scull_dev *dev = &scull_s_device; /* device information */
+	pr_debug("%s() is invoked\n", __FUNCTION__);
 
 	if (! atomic_dec_and_test (&scull_s_available)) {
 		atomic_inc(&scull_s_available);
@@ -71,6 +72,7 @@ static int scull_s_open(struct inode *inode, struct file *filp)
 
 static int scull_s_release(struct inode *inode, struct file *filp)
 {
+	pr_debug("%s() is invoked\n", __FUNCTION__);
 	atomic_inc(&scull_s_available); /* release the device */
 	return 0;
 }
@@ -104,6 +106,7 @@ static DEFINE_SPINLOCK(scull_u_lock);
 static int scull_u_open(struct inode *inode, struct file *filp)
 {
 	struct scull_dev *dev = &scull_u_device; /* device information */
+	pr_debug("%s() is invoked\n", __FUNCTION__);
 
 	spin_lock(&scull_u_lock);
 	if (scull_u_count && 
@@ -130,6 +133,7 @@ static int scull_u_open(struct inode *inode, struct file *filp)
 
 static int scull_u_release(struct inode *inode, struct file *filp)
 {
+	pr_debug("%s() is invoked\n", __FUNCTION__);
 	spin_lock(&scull_u_lock);
 	scull_u_count--; /* nothing else */
 	spin_unlock(&scull_u_lock);
@@ -175,6 +179,7 @@ static inline int scull_w_available(void)
 static int scull_w_open(struct inode *inode, struct file *filp)
 {
 	struct scull_dev *dev = &scull_w_device; /* device information */
+	pr_debug("%s() is invoked\n", __FUNCTION__);
 
 	spin_lock(&scull_w_lock);
 	while (! scull_w_available()) {
@@ -199,6 +204,7 @@ static int scull_w_open(struct inode *inode, struct file *filp)
 static int scull_w_release(struct inode *inode, struct file *filp)
 {
 	int temp;
+	pr_debug("%s() is invoked\n", __FUNCTION__);
 
 	spin_lock(&scull_w_lock);
 	scull_w_count--;

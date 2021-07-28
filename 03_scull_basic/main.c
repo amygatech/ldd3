@@ -181,11 +181,13 @@ static struct seq_operations scull_seq_ops = {
  */
 static int scullmem_proc_open(struct inode *inode, struct file *file)
 {
+	pr_debug("%s() is invoked\n", __FUNCTION__);
 	return single_open(file, scull_read_procmem, NULL);
 }
 
 static int scullseq_proc_open(struct inode *inode, struct file *file)
 {
+	pr_debug("%s() is invoked\n", __FUNCTION__);
 	return seq_open(file, &scull_seq_ops);
 }
 
@@ -574,6 +576,7 @@ void scull_cleanup_module(void)
 {
 	int i;
 	dev_t devno = MKDEV(scull_major, scull_minor);
+	printk(KERN_NOTICE "\n ----Enter scull_cleanup_module()-----\n");
 
 	/* Get rid of our char dev entries */
 	if (scull_devices) {
@@ -628,6 +631,8 @@ int scull_init_module(void)
 {
 	int result, i;
 	dev_t dev = 0;
+
+	printk(KERN_NOTICE "\n ----Enter scull_init_module()-----\n");
 
 /*
  * Get a range of minor numbers to work with, asking for a dynamic

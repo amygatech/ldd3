@@ -66,6 +66,7 @@ static int spacefree(struct scull_pipe *dev);
 static int scull_p_open(struct inode *inode, struct file *filp)
 {
 	struct scull_pipe *dev;
+	pr_debug("%s() is invoked\n", __FUNCTION__);
 
 	dev = container_of(inode->i_cdev, struct scull_pipe, cdev);
 	filp->private_data = dev;
@@ -99,6 +100,7 @@ static int scull_p_open(struct inode *inode, struct file *filp)
 static int scull_p_release(struct inode *inode, struct file *filp)
 {
 	struct scull_pipe *dev = filp->private_data;
+	pr_debug("%s() is invoked\n", __FUNCTION__);
 
 	/* remove this filp from the asynchronously notified filp's */
 	scull_p_fasync(-1, filp, 0);
@@ -124,6 +126,7 @@ static ssize_t scull_p_read (struct file *filp, char __user *buf, size_t count,
                 loff_t *f_pos)
 {
 	struct scull_pipe *dev = filp->private_data;
+	pr_debug("%s() is invoked\n", __FUNCTION__);
 
 	if (down_interruptible(&dev->sem))
 		return -ERESTARTSYS;
@@ -163,6 +166,7 @@ static ssize_t scull_p_read (struct file *filp, char __user *buf, size_t count,
  * error the semaphore will be released before returning. */
 static int scull_getwritespace(struct scull_pipe *dev, struct file *filp)
 {
+	pr_debug("%s() is invoked\n", __FUNCTION__);
 	while (spacefree(dev) == 0) { /* full */
 		DEFINE_WAIT(wait);
 		
@@ -195,6 +199,7 @@ static ssize_t scull_p_write(struct file *filp, const char __user *buf, size_t c
 {
 	struct scull_pipe *dev = filp->private_data;
 	int result;
+	pr_debug("%s() is invoked\n", __FUNCTION__);
 
 	if (down_interruptible(&dev->sem))
 		return -ERESTARTSYS;
@@ -235,6 +240,7 @@ static unsigned int scull_p_poll(struct file *filp, poll_table *wait)
 	struct scull_pipe *dev = filp->private_data;
 	unsigned int mask = 0;
 
+	pr_debug("%s() is invoked\n", __FUNCTION__);
 	/*
 	 * The buffer is circular; it is considered full
 	 * if "wp" is right behind "rp" and empty if the
@@ -328,6 +334,7 @@ struct file_operations scull_pipe_fops = {
 static void scull_p_setup_cdev(struct scull_pipe *dev, int index)
 {
 	int err, devno = scull_p_devno + index;
+	pr_debug("%s() is invoked\n", __FUNCTION__);
     
 	cdev_init(&dev->cdev, &scull_pipe_fops);
 	dev->cdev.owner = THIS_MODULE;
@@ -348,6 +355,7 @@ static void scull_p_setup_cdev(struct scull_pipe *dev, int index)
 int scull_p_init(dev_t firstdev)
 {
 	int i, result;
+	pr_debug("%s() is invoked\n", __FUNCTION__);
 
 	result = register_chrdev_region(firstdev, scull_p_nr_devs, "scullp");
 	if (result < 0) {
@@ -382,6 +390,7 @@ int scull_p_init(dev_t firstdev)
 void scull_p_cleanup(void)
 {
 	int i;
+	pr_debug("%s() is invoked\n", __FUNCTION__);
 
 #ifdef SCULL_DEBUG
 	remove_proc_entry("scullpipe", NULL);

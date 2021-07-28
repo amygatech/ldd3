@@ -1,5 +1,5 @@
 # Comment/uncomment the following line to disable/enable debugging
-#DEBUG = y
+DEBUG = y
 
 
 # Add your debugging flag (or not) to CFLAGS
@@ -11,7 +11,7 @@ endif
 
 LDDINC=$(PWD)/../include
 
-EXTRA_CFLAGS += $(DEBFLAGS)
+EXTRA_CFLAGS += $(DEBFLAGS) -std=gnu99 -DENABLE_DEBUG
 EXTRA_CFLAGS += -I$(LDDINC)
 
 ifneq ($(KERNELRELEASE),)
@@ -39,6 +39,10 @@ clean:
 depend .depend dep:
 	$(CC) $(EXTRA_CFLAGS) -M *.c > .depend
 
+# Enable pr_debug
+CFLAGS_main.o := -DDEBUG
+CFLAGS_pipe.o := -DDEBUG
+CFLAGS_access.o := -DDEBUG
 
 ifeq (.depend,$(wildcard .depend))
 include .depend
