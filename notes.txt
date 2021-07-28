@@ -101,5 +101,61 @@ pr_debug()
     to the makefile.
 
 
+*******************************************
+** Some important Data Structure in chapter3
+*******************************************
+Most of the fundamental driver opera-tions involve three important kernel data structures, 
+called file_operations, file, and inode.
+
+1) File Operations
+----------------
+The file_operations struc-ture is how a char driver sets up this connection. 
+The structure, defined in <linux/fs.h>, 
+is a collection of function pointers
+
++ The operations are mostly in charge of implementing 
+the system calls and are therefore,named open, read, and so on.
+
++ Conventionally, a file_operations structure or a pointer to one is called fops
+
+The scull device driver implements only the most important device methods. Its
+file_operations structure is initialized as follows:
+
+struct file_operations scull_fops = {
+	.owner =    THIS_MODULE,
+	.llseek =   scull_llseek,
+	.read =     scull_read,
+	.write =    scull_write,
+	.unlocked_ioctl = scull_ioctl,
+	.open =     scull_open,
+	.release =  scull_release,
+};
+
+
+2) The File Structure
+---------------------
+struct file, defined in <linux/fs.h>, is the second most important data structure
+used in device drivers.
+
++ Note that a file has nothing to do with the FILE pointers of user-space programs.
++ The file structure represents an open file
++In the kernel sources, a pointer to struct file is usually called either file or filp (“file pointer”).
+
+
+3) The inode structure
+----------------------
+The inode structure is used by the kernel internally to represent files. Therefore, it is
+different from the file structure that represents an open file descriptor.
+
++ The inode structure contains a great deal of information about the file.
+As a general rule, only two fields of this structure are of interest for writing driver code:
+
+* dev_t i_rdev;
+	For inodes that represent device files, this field contains the actual device number.
+* struct cdev *i_cdev;
+	struct cdev is the kernel’s internal structure that represents char devices; this
+	field contains a pointer to that structure when the inode refers to a char device file
+
+
 
 
